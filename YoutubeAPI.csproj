@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <None Update="config.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="FFmpeg\bin\unix\x64\libavcodec.so.57">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -78,5 +78,13 @@
     <None Update="FFmpeg\bin\windows\x86\swresample-2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="C:\Users\beam2\.nuget\packages\naudio.lame\2.0.1\build\libmp3lame.32.dll" Link="lib\libmp3lame.32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="C:\Users\beam2\.nuget\packages\naudio.lame\2.0.1\build\libmp3lame.64.dll" Link="lib\libmp3lame.64.dll" />
   </ItemGroup>
 </Project>
