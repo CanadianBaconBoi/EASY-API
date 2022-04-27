@@ -51,7 +51,7 @@ One of
 5. Locate your built binary in bin/Release/net6.0/
 
 
-
+---
 ### To-do
 - [ ] Implement better authentication
 - [ ] Improve cache implementation
