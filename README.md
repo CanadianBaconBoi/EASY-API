@@ -49,3 +49,10 @@ One of
   >3. Open a commandline in the directory
   >4. Run `dotnet publish YoutubeAPI.sln --configuration Release`
 5. Locate your built binary in bin/Release/net6.0/
+
+
+
+### To-do
+- [ ] Implement better authentication
+- [ ] Improve cache implementation
+- [ ] Improve logging
