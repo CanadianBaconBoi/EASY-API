@@ -1,4 +1,4 @@
-#  Easy, Affable, and Secure Youtube (EASY) API
+#  Simple, Affable, and Secure Youtube (SASY) API
 A Youtube API written in C# with ![Carter](https://github.com/CarterCommunity/Carter)
 
 ## Features
