@@ -15,6 +15,8 @@ namespace YoutubeAPI
         {
             [JsonProperty("YoutubeAPIKey")]
             public String YoutubeAPIKey;
+            [JsonProperty("APIKeyLength")]
+            public int? APIKeyLength;
             [JsonProperty("APIKeys")]
             public String[] APIKeys;
             [JsonProperty("Endpoints")]
@@ -36,15 +38,15 @@ namespace YoutubeAPI
         {
             if (File.Exists("config.json"))
             {
-                Config? _config = null;
+                Config _config = null;
                 try
                 {
                     _config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"), new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error });
                 }
-                catch (JsonSerializationException e)
+                catch (JsonSerializationException)
                 {
                     File.Move("config.json", "config.json.old", true);
-                    File.WriteAllText("config.json", JsonConvert.SerializeObject(new Config() { YoutubeAPIKey = "", APIKeys = new string[] { }, Endpoints = new string[] { } }, Formatting.Indented));
+                    File.WriteAllText("config.json", JsonConvert.SerializeObject(new Config() { YoutubeAPIKey = "", APIKeyLength = 32, APIKeys = new string[] { }, Endpoints = new string[] { } }, Formatting.Indented));
                     Logger.Log(Logger.LogLevel.ERROR, new string[]
                     {
                         "Config file invalid, writing one... ",
@@ -67,12 +69,30 @@ namespace YoutubeAPI
                     {
                         YoutubeAPIKey = config.YoutubeAPIKey;
                     }
+                    
                     if(config.APIKeys == null || config.APIKeys.Length == 0)
                     {
                         Logger.Log(Logger.LogLevel.WARN, "No API Keys present, running in unsecured mode.");
+                    } else if (config.APIKeyLength == null || config.APIKeyLength == 0)
+                    {
+                        Logger.Log(Logger.LogLevel.WARN, "No API Key Length set, running in unsecured mode.");
                     } else
                     {
                         Keys = new(config.APIKeys);
+                        if (config.APIKeyLength != -1)
+                            foreach (var key in Keys.ToArray()) // ToArray creates a copy
+                            {
+                                if(key.Length != config.APIKeyLength)
+                                {
+                                    Logger.Log(Logger.LogLevel.ERROR, $"API Key {key} is not of size {config.APIKeyLength}. Discarding.");
+                                    Keys.RemoveAll(x => x == key);
+                                }
+                            }
+                        if(Keys.Count == 0)
+                        {
+                            Logger.Log(Logger.LogLevel.ERROR, $"All API Keys discarded, exiting!!!");
+                            return;
+                        }
                         if (Keys.Count > 1)
                             Logger.Log(Logger.LogLevel.INFO, $"Loaded {Keys.Count} API Keys");
                         else
@@ -90,7 +110,7 @@ namespace YoutubeAPI
                 } else
                 {
                     File.Move("config.json", "config.json.old", true);
-                    File.WriteAllText("config.json", JsonConvert.SerializeObject(new Config() { YoutubeAPIKey = "", APIKeys = new string[] { }, Endpoints = new string[] { } }, Formatting.Indented));
+                    File.WriteAllText("config.json", JsonConvert.SerializeObject(new Config() { YoutubeAPIKey = "", APIKeyLength = 32, APIKeys = new string[] { }, Endpoints = new string[] { } }, Formatting.Indented));
                     Logger.Log(Logger.LogLevel.ERROR, new string[]
                     {
                         "Config file invalid, writing one... ",
@@ -101,7 +121,7 @@ namespace YoutubeAPI
             }
             else
             {
-                File.WriteAllText("config.json", JsonConvert.SerializeObject(new Config() { YoutubeAPIKey = "", APIKeys = new string[] { }, Endpoints = new string[] { } }, Formatting.Indented));
+                File.WriteAllText("config.json", JsonConvert.SerializeObject(new Config() { YoutubeAPIKey = "", APIKeyLength = 32, APIKeys = new string[] { }, Endpoints = new string[] { } }, Formatting.Indented));
                 Logger.Log(Logger.LogLevel.ERROR, new string[]
                 {
                     "Config file not present, writing one... ",

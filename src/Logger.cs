@@ -25,8 +25,6 @@ namespace YoutubeAPI
 
         public static string log_format = "[{dt}] {0:msg}";
 
-        private static LogFormatter formatter = new();
-
         public static Dictionary<LogLevel, ConsoleColor> LogColors = new()
         {
             { LogLevel.TRACE, ConsoleColor.DarkGray },

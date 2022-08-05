@@ -53,6 +53,7 @@ One of
 
 ---
 ### To-do
-- [ ] Implement better authentication
+- [x] Implement better authentication
+  - [ ] Move to Authentication header?
 - [ ] Improve cache implementation
 - [x] Improve logging

@@ -164,7 +164,7 @@ namespace YoutubeAPI
                             r.Response.StatusCode = 200;
                             r.Response.ContentType = "audio/mpeg";
 
-                            Logger.Log(Logger.LogLevel.INFO, "New Song Request From {col:10}" + r.Connection.RemoteIpAddress + "{col:15}. \n\tSending cached content");
+                            Logger.Log(Logger.LogLevel.INFO, "New Audio Request From {col:10}" + r.Connection.RemoteIpAddress + "{col:15}. \n\tSending cached content");
 
                             await r.Response.StartAsync();
                             Stream stream = cacheItem.Stream.CreateReader();
@@ -216,7 +216,7 @@ namespace YoutubeAPI
                                 r.Response.StatusCode = 200;
                                 r.Response.ContentType = "audio/mpeg";
 
-                                Logger.Log(Logger.LogLevel.INFO, "New Song Request From {col:10}"+r.Connection.RemoteIpAddress+ "{col:15}. \n\tSending new content");
+                                Logger.Log(Logger.LogLevel.INFO, "New Audio Request From {col:10}" + r.Connection.RemoteIpAddress+ "{col:15}. \n\tSending new content");
                                 await r.Response.StartAsync();
                                 Stream stream = cacheItem.Stream.CreateReader();
                                 Stream bodyWriter = r.Response.BodyWriter.AsStream();
