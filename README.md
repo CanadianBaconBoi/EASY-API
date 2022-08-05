@@ -57,3 +57,11 @@ One of
   - [ ] Move to Authentication header?
 - [ ] Improve cache implementation
 - [x] Improve logging
+
+### Ideas
+- Create web panel for API token management.
+  - User/Password with Auth Tokens
+  - Allow user to enable/disable
+    - Capability URL authentication
+    - Authentication Header
+    - etc
