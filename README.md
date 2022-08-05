@@ -55,4 +55,4 @@ One of
 ### To-do
 - [ ] Implement better authentication
 - [ ] Improve cache implementation
-- [ ] Improve logging
+- [x] Improve logging

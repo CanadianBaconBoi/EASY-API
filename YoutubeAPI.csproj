@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <None Update="config.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="FFmpeg\bin\unix\x64\libavcodec.so.57">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

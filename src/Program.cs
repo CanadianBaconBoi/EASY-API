@@ -45,13 +45,10 @@ namespace YoutubeAPI
                 {
                     File.Move("config.json", "config.json.old", true);
                     File.WriteAllText("config.json", JsonConvert.SerializeObject(new Config() { YoutubeAPIKey = "", APIKeys = new string[] { }, Endpoints = new string[] { } }, Formatting.Indented));
-                    HomeModule.Log(() =>
+                    Logger.Log(Logger.LogLevel.ERROR, new string[]
                     {
-                        ConsoleColor currentForeground = Console.ForegroundColor;
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"[{DateTime.Now:dd/MM/yy HH:mm:ss}] Config file invalid, writing one... ");
-                        Console.WriteLine($"[{DateTime.Now:dd/MM/yy HH:mm:ss}] Stopping Server, please fill out the config.");
-                        Console.ForegroundColor = currentForeground;
+                        "Config file invalid, writing one... ",
+                        "Stopping Server, please fill out the config."
                     });
                     return;
                 }
@@ -60,13 +57,10 @@ namespace YoutubeAPI
                 {
                     if(config.YoutubeAPIKey == null || config.YoutubeAPIKey == String.Empty)
                     {
-                        HomeModule.Log(() =>
+                        Logger.Log(Logger.LogLevel.ERROR, new string[]
                         {
-                            ConsoleColor currentForeground = Console.ForegroundColor;
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"[{DateTime.Now:dd/MM/yy HH:mm:ss}] Youtube API Key not present ");
-                            Console.WriteLine($"[{DateTime.Now:dd/MM/yy HH:mm:ss}] Stopping Server, please fill out the config.");
-                            Console.ForegroundColor = currentForeground;
+                            "Youtube API Key not present ",
+                            "Stopping Server, please fill out the config."
                         });
                         return;
                     } else
@@ -75,39 +69,18 @@ namespace YoutubeAPI
                     }
                     if(config.APIKeys == null || config.APIKeys.Length == 0)
                     {
-                        HomeModule.Log(() =>
-                        {
-                            ConsoleColor currentForeground = Console.ForegroundColor;
-                            Console.Write($"[{DateTime.Now:dd/MM/yy HH:mm:ss}]");
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine($" No API Keys present, running in unsecured mode.");
-                            Console.ForegroundColor = currentForeground;
-                        });
+                        Logger.Log(Logger.LogLevel.WARN, "No API Keys present, running in unsecured mode.");
                     } else
                     {
                         Keys = new(config.APIKeys);
-                        HomeModule.Log(() =>
-                        {
-                            ConsoleColor currentForeground = Console.ForegroundColor;
-                            Console.Write($"[{DateTime.Now:dd/MM/yy HH:mm:ss}]");
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            if (Keys.Count > 1)
-                                Console.WriteLine($" Loaded {Keys.Count} API Keys");
-                            else
-                                Console.WriteLine($" Loaded {Keys.Count} API Key");
-                            Console.ForegroundColor = currentForeground;
-                        });
+                        if (Keys.Count > 1)
+                            Logger.Log(Logger.LogLevel.INFO, $"Loaded {Keys.Count} API Keys");
+                        else
+                            Logger.Log(Logger.LogLevel.INFO, $"Loaded {Keys.Count} API Key");
                     }
                     if (config.Endpoints == null || config.Endpoints.Length == 0)
                     {
-                        HomeModule.Log(() =>
-                        {
-                            ConsoleColor currentForeground = Console.ForegroundColor;
-                            Console.Write($"[{DateTime.Now:dd/MM/yy HH:mm:ss}]");
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine($" No Endpoints configured, running on default.");
-                            Console.ForegroundColor = currentForeground;
-                        });
+                        Logger.Log(Logger.LogLevel.WARN, "No Endpoints configured, running on default.");
                         Endpoints = new[] { "http://0.0.0.0:8080" };
                     }
                     else
@@ -118,13 +91,10 @@ namespace YoutubeAPI
                 {
                     File.Move("config.json", "config.json.old", true);
                     File.WriteAllText("config.json", JsonConvert.SerializeObject(new Config() { YoutubeAPIKey = "", APIKeys = new string[] { }, Endpoints = new string[] { } }, Formatting.Indented));
-                    HomeModule.Log(() =>
+                    Logger.Log(Logger.LogLevel.ERROR, new string[]
                     {
-                        ConsoleColor currentForeground = Console.ForegroundColor;
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"[{DateTime.Now:dd/MM/yy HH:mm:ss}] Config file invalid, writing one... ");
-                        Console.WriteLine($"[{DateTime.Now:dd/MM/yy HH:mm:ss}] Stopping Server, please fill out the config.");
-                        Console.ForegroundColor = currentForeground;
+                        "Config file invalid, writing one... ",
+                        "Stopping Server, please fill out the config."
                     });
                     return;
                 }
@@ -132,13 +102,10 @@ namespace YoutubeAPI
             else
             {
                 File.WriteAllText("config.json", JsonConvert.SerializeObject(new Config() { YoutubeAPIKey = "", APIKeys = new string[] { }, Endpoints = new string[] { } }, Formatting.Indented));
-                HomeModule.Log(() =>
+                Logger.Log(Logger.LogLevel.ERROR, new string[]
                 {
-                    ConsoleColor currentForeground = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"[{DateTime.Now:dd/MM/yy HH:mm:ss}] Config file not present, writing one... ");
-                    Console.WriteLine($"[{DateTime.Now:dd/MM/yy HH:mm:ss}] Stopping Server, please fill out the config.");
-                    Console.ForegroundColor = currentForeground;
+                    "Config file not present, writing one... ",
+                    "Stopping Server, please fill out the config."
                 });
                 return;
             }
@@ -173,32 +140,11 @@ namespace YoutubeAPI
 
             app.MapCarter();
 
-            HomeModule.Log(() =>
-            {
-                ConsoleColor currentForeground = Console.ForegroundColor;
-                Console.Write($"[{DateTime.Now:dd/MM/yy HH:mm:ss}]");
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write($" Starting Server at ");
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.Write(String.Join(", ", app.Urls));
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine(".");
-                Console.ForegroundColor = currentForeground;
-            });
+            Logger.Log(Logger.LogLevel.INFO, "Starting Server at {col:13}" + String.Join(", ", app.Urls) + "{col:15}.");
 
             Console.CancelKeyPress += delegate
             {
-                HomeModule.Log(() =>
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("");
-                    Console.WriteLine("");
-                    ConsoleColor currentForeground = Console.ForegroundColor;
-                    Console.Write($"[{DateTime.Now:dd/MM/yy HH:mm:ss}]");
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($" Received ^C, shutting down.");
-                    Console.ForegroundColor = currentForeground;
-                });
+                Logger.Log(Logger.LogLevel.ERROR, "\n\n\n\nReceived ^C, shutting down.");
                 Environment.Exit(0);
             };
 
@@ -210,7 +156,6 @@ namespace YoutubeAPI
             while (true)
             {
                 Thread.Sleep(300_000);
-                Console.WriteLine("Cache cleanup");
                 List<string> toDelete = new List<string>();
 
                 lock (mp3Cache)
@@ -222,7 +167,6 @@ namespace YoutubeAPI
                     foreach (string item in toDelete)
                     {
                         mp3Cache.Remove(item);
-                        Console.WriteLine($"removing {item}");
                     }
                 }
             }

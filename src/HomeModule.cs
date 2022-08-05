@@ -164,18 +164,7 @@ namespace YoutubeAPI
                             r.Response.StatusCode = 200;
                             r.Response.ContentType = "audio/mpeg";
 
-                            Log(() =>
-                            {
-                                ConsoleColor currentForeground = Console.ForegroundColor;
-                                Console.Write($"[{DateTime.Now:dd/MM/yy HH:mm:ss}]");
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                Console.Write($" New Song Request From ");
-                                Console.ForegroundColor = ConsoleColor.Magenta;
-                                Console.Write(r.Connection.RemoteIpAddress);
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                Console.WriteLine(". \n\tSending cached content");
-                                Console.ForegroundColor = currentForeground;
-                            });
+                            Logger.Log(Logger.LogLevel.INFO, "New Song Request From {col:10}" + r.Connection.RemoteIpAddress + "{col:15}. \n\tSending cached content");
 
                             await r.Response.StartAsync();
                             Stream stream = cacheItem.Stream.CreateReader();
@@ -227,18 +216,7 @@ namespace YoutubeAPI
                                 r.Response.StatusCode = 200;
                                 r.Response.ContentType = "audio/mpeg";
 
-                                Log(() =>
-                                {
-                                    ConsoleColor currentForeground = Console.ForegroundColor;
-                                    Console.Write($"[{DateTime.Now:dd/MM/yy HH:mm:ss}]");
-                                    Console.ForegroundColor = ConsoleColor.Green;
-                                    Console.Write($" New Song Request From ");
-                                    Console.ForegroundColor = ConsoleColor.Magenta;
-                                    Console.Write(r.Connection.RemoteIpAddress);
-                                    Console.ForegroundColor = ConsoleColor.Green;
-                                    Console.WriteLine(". \n\tSending new content");
-                                    Console.ForegroundColor = currentForeground;
-                                });
+                                Logger.Log(Logger.LogLevel.INFO, "New Song Request From {col:10}"+r.Connection.RemoteIpAddress+ "{col:15}. \n\tSending new content");
                                 await r.Response.StartAsync();
                                 Stream stream = cacheItem.Stream.CreateReader();
                                 Stream bodyWriter = r.Response.BodyWriter.AsStream();
@@ -296,12 +274,5 @@ namespace YoutubeAPI
 
         public Task<HttpResponseMessage> GetAsync(string uri) => c.GetAsync(uri);
 
-        private static object _lock = new();
-
-        public static void Log(Action _cb)
-        {
-            lock (_lock)
-                _cb();
-        }
     }
 }
