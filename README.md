@@ -53,9 +53,11 @@ One of
 
 ---
 ### To-do
+- [ ] Create CLI Client
+- [ ] Create Docker Image
+- [ ] Improve cache implementation
 - [x] Implement better authentication
   - [ ] Move to Authentication header?
-- [ ] Improve cache implementation
 - [x] Improve logging
 
 ### Ideas
