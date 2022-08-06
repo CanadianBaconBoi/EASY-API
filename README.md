@@ -53,7 +53,17 @@ One of
 
 ---
 ### To-do
+- [ ] Create CLI Client
+- [ ] Create Docker Image
+- [ ] Improve cache implementation
 - [x] Implement better authentication
   - [ ] Move to Authentication header?
-- [ ] Improve cache implementation
 - [x] Improve logging
+
+### Ideas
+- Create web panel for API token management.
+  - User/Password with Auth Tokens
+  - Allow user to enable/disable
+    - Capability URL authentication
+    - Authentication Header
+    - etc
